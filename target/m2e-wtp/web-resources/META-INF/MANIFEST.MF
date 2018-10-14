@@ -1,10 +1,10 @@
 Manifest-Version: 1.0
-Implementation-Title: gs-spring-boot
+Implementation-Title: my-web-app
 Implementation-Version: 0.1.0
 Built-By: kmadhaveswar
 Implementation-Vendor-Id: org.springframework
 Build-Jdk: 1.8.0_151
 Implementation-URL: https://projects.spring.io/spring-boot/#/spring-bo
- ot-starter-parent/gs-spring-boot
+ ot-starter-parent/my-web-app
 Created-By: Maven Integration for Eclipse
 
