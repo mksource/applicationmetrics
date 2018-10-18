@@ -1,6 +1,8 @@
 package metrics.service;
 
 import java.nio.ByteBuffer;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import org.springframework.stereotype.Service;
 
@@ -19,27 +21,32 @@ public class MetricsCollectorService {
 	
 	private KinesisProducer metricsProducer;
 	private ObjectMapper objectMapper = new ObjectMapper();
+	ExecutorService executors = Executors.newFixedThreadPool(10);
 	
 	public void start() {
 		stop = true;
-		while(stop) {
-			double rand = Math.random();
-			Metrics metrics;
-			
-			if(rand < 0.05 || rand > 0.995) {
-				metrics = getAbNormalOperation();
-			} else {
-				metrics = getNormalOperation();
+		
+		Runnable runntableTask = () -> {
+			while(stop) {
+				double rand = Math.random();
+				Metrics metrics;
+				
+				if(rand < 0.05 || rand > 0.995) {
+					metrics = getAbNormalOperation();
+				} else {
+					metrics = getNormalOperation();
+				}
+				try {
+				String userRecord = objectMapper.writeValueAsString(metrics);
+				ByteBuffer buffer = ByteBuffer.wrap(userRecord.getBytes("UTF-8")); 
+				metricsProducer.addUserRecord(STREAM_NAME, PARTITION_KEY, buffer);
+				
+				Thread.sleep(SLEEP_PERIOD);
+				} catch(Exception e) {
+				}
 			}
-			try {
-			String userRecord = objectMapper.writeValueAsString(metrics);
-			ByteBuffer buffer = ByteBuffer.wrap(userRecord.getBytes("UTF-8")); 
-			metricsProducer.addUserRecord(STREAM_NAME, PARTITION_KEY, buffer);
-			
-			Thread.sleep(SLEEP_PERIOD);
-			} catch(Exception e) {
-			}
-		}
+		};
+		executors.execute(runntableTask);
 	}
 	
 	public void stop() {
