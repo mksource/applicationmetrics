@@ -2,12 +2,14 @@ package metrics.service;
 
 import java.nio.ByteBuffer;
 
+import org.springframework.stereotype.Service;
+
 import com.amazonaws.services.kinesis.producer.KinesisProducer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import metrics.model.Metrics;
 
-
+@Service
 public class MetricsCollectorService {
 
 	private static final String STREAM_NAME = "ApplicationMetricsStream";

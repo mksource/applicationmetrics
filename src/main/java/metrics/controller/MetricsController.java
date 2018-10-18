@@ -10,18 +10,18 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import metrics.service.MetricsCollectorService;
 
 @Controller
-public class ApplicationMericsCollector {
+public class MetricsController {
 
 	@Autowired
 	private MetricsCollectorService metricsCollectorService;
 	
-	@GetMapping
+	@GetMapping("startMetrics")
 	public ResponseEntity<HttpStatus> startCollectingMetrics() {
 		metricsCollectorService.start();
 		return ResponseEntity.ok(HttpStatus.OK);
 	}
 	
-	@GetMapping
+	@GetMapping("stopMetrics")
 	public ResponseEntity<HttpStatus> stopCollectingMetrics() {
 		metricsCollectorService.stop();
 		return ResponseEntity.ok(HttpStatus.OK);
