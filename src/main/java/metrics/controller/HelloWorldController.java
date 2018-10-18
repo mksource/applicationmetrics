@@ -1,4 +1,4 @@
-package tacos;
+package metrics.controller;
 
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -6,6 +6,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import metrics.model.Greeting;
 
 @Controller
 public class HelloWorldController {
@@ -15,7 +17,7 @@ public class HelloWorldController {
 
     @GetMapping("/hello-world")
     @ResponseBody
-    public Greeting sayHello(@RequestParam(name="name", required=false, defaultValue="Stranger") String name) {
+    public Greeting sayHello(@RequestParam(name="name", required=false, defaultValue="Demo") String name) {
         return new Greeting(counter.incrementAndGet(), String.format(template, name));
     }
 

@@ -1,4 +1,4 @@
-package tacos;
+package metrics.model;
 
 public class Greeting {
 
