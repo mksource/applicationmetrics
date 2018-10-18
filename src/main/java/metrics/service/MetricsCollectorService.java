@@ -1,5 +1,6 @@
 package metrics.service;
 
+import java.io.UnsupportedEncodingException;
 import java.nio.ByteBuffer;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -7,6 +8,7 @@ import java.util.concurrent.Executors;
 import org.springframework.stereotype.Service;
 
 import com.amazonaws.services.kinesis.producer.KinesisProducer;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import metrics.model.Metrics;
@@ -23,8 +25,27 @@ public class MetricsCollectorService {
 	private ObjectMapper objectMapper = new ObjectMapper();
 	ExecutorService executors = Executors.newFixedThreadPool(10);
 	
-	public void start() {
+	public void start() throws JsonProcessingException, UnsupportedEncodingException {
 		stop = true;
+		
+	
+			double rand1 = Math.random();
+			Metrics metrics1;
+			
+			if(rand1 < 0.05 || rand1 > 0.995) {
+				metrics1 = getAbNormalOperation();
+			} else {
+				metrics1 = getNormalOperation();
+			}
+			
+			String userRecord = objectMapper.writeValueAsString(metrics1);
+			ByteBuffer buffer = ByteBuffer.wrap(userRecord.getBytes("UTF-8")); 
+			metricsProducer.addUserRecord(STREAM_NAME, PARTITION_KEY, buffer);
+			
+			
+			
+		
+		
 		
 		Runnable runntableTask = () -> {
 			while(stop) {
@@ -46,6 +67,7 @@ public class MetricsCollectorService {
 				}
 			}
 		};
+		
 		executors.execute(runntableTask);
 	}
 	
