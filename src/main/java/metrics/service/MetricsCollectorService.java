@@ -8,6 +8,7 @@ import java.util.concurrent.Executors;
 import org.springframework.stereotype.Service;
 
 import com.amazonaws.services.kinesis.producer.KinesisProducer;
+import com.amazonaws.services.kinesis.producer.KinesisProducerConfiguration;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -19,16 +20,16 @@ public class MetricsCollectorService {
 	private static final String STREAM_NAME = "ApplicationMetricsStream";
 	private static final String PARTITION_KEY = "partition";
 	private static final int SLEEP_PERIOD = 2000;
+	private static final String REGION = "us-east-1";
 	private boolean stop = true;
 	
-	private KinesisProducer metricsProducer;
+	private KinesisProducer metricsProducer = getKinesisProducer();;
 	private ObjectMapper objectMapper = new ObjectMapper();
 	ExecutorService executors = Executors.newFixedThreadPool(10);
 	
 	public void start() throws JsonProcessingException, UnsupportedEncodingException {
 		stop = true;
 		
-	
 			double rand1 = Math.random();
 			Metrics metrics1;
 			
@@ -89,6 +90,15 @@ public class MetricsCollectorService {
 		int latency = 50 + (int)(Math.random() * ((80 - 50) + 1));
 		int throughput = 10 + (int)(Math.random() * ((20 - 10) + 1));
 		return new Metrics(numOfLoginFailures, numOfHttpErrors, latency, throughput);
+	}
+	
+	private KinesisProducer getKinesisProducer() {
+		KinesisProducerConfiguration config = new KinesisProducerConfiguration();
+
+		 config.setRegion(REGION);
+		 config.setMaxConnections(1);
+		 KinesisProducer producer = new KinesisProducer(config);
+		 return producer;
 	}
 	
 }
