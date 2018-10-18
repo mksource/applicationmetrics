@@ -30,46 +30,28 @@ public class MetricsCollectorService {
 	public void start() throws JsonProcessingException, UnsupportedEncodingException {
 		stop = true;
 		
-			double rand1 = Math.random();
-			Metrics metrics1;
-			
-			if(rand1 < 0.05 || rand1 > 0.995) {
-				metrics1 = getAbNormalOperation();
-			} else {
-				metrics1 = getNormalOperation();
+		Runnable runntableTask = () -> {
+			while(stop) {
+				double rand = Math.random();
+				Metrics metrics;
+				
+				if(rand < 0.05 || rand > 0.995) {
+					metrics = getAbNormalOperation();
+				} else {
+					metrics = getNormalOperation();
+				}
+				try {
+				String userRecord = objectMapper.writeValueAsString(metrics);
+				ByteBuffer buffer = ByteBuffer.wrap(userRecord.getBytes("UTF-8")); 
+				metricsProducer.addUserRecord(STREAM_NAME, PARTITION_KEY, buffer);
+				
+				Thread.sleep(SLEEP_PERIOD);
+				} catch(Exception e) {
+				}
 			}
-			
-			String userRecord = objectMapper.writeValueAsString(metrics1);
-			ByteBuffer buffer = ByteBuffer.wrap(userRecord.getBytes("UTF-8")); 
-			metricsProducer.addUserRecord(STREAM_NAME, PARTITION_KEY, buffer);
-			
-			
-			
+		};
 		
-		
-		
-//		Runnable runntableTask = () -> {
-//			while(stop) {
-//				double rand = Math.random();
-//				Metrics metrics;
-//				
-//				if(rand < 0.05 || rand > 0.995) {
-//					metrics = getAbNormalOperation();
-//				} else {
-//					metrics = getNormalOperation();
-//				}
-//				try {
-//				String userRecord = objectMapper.writeValueAsString(metrics);
-//				ByteBuffer buffer = ByteBuffer.wrap(userRecord.getBytes("UTF-8")); 
-//				metricsProducer.addUserRecord(STREAM_NAME, PARTITION_KEY, buffer);
-//				
-//				Thread.sleep(SLEEP_PERIOD);
-//				} catch(Exception e) {
-//				}
-//			}
-//		};
-//		
-//		executors.execute(runntableTask);
+		executors.execute(runntableTask);
 	}
 	
 	public void stop() {
