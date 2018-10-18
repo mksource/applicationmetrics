@@ -67,8 +67,8 @@ public class MetricsCollectorService {
 	}
 	
 	private Metrics getAbNormalOperation() {
-		int numOfLoginFailures = 1 + (int)(Math.random() * ((50 - 1) + 1)) ;
-		int numOfHttpErrors = 1 + (int)(Math.random() * ((50 - 20) + 1));
+		int numOfLoginFailures = 20 + (int)(Math.random() * ((50 - 20) + 1)) ;
+		int numOfHttpErrors = 20 + (int)(Math.random() * ((50 - 20) + 1));
 		int latency = 50 + (int)(Math.random() * ((80 - 50) + 1));
 		int throughput = 10 + (int)(Math.random() * ((20 - 10) + 1));
 		return new Metrics(numOfLoginFailures, numOfHttpErrors, latency, throughput);
