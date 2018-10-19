@@ -54,7 +54,7 @@ public class MetricsCollectorService {
 		executors.execute(runntableTask);
 	}
 	
-	public void loadtest() throws JsonProcessingException, UnsupportedEncodingException {
+	public void error() throws JsonProcessingException, UnsupportedEncodingException {
 		stop = true;
 		
 		Runnable runntableTask = () -> {

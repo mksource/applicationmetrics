@@ -31,9 +31,9 @@ public class MetricsController {
 		return ResponseEntity.ok(HttpStatus.OK);
 	}
 	
-	@GetMapping("loadtest")
-	public ResponseEntity<HttpStatus> loadtest() {
-		metricsCollectorService.stop();
+	@GetMapping("startLoad")
+	public ResponseEntity<HttpStatus> startAnamalousBehavious() throws JsonProcessingException, UnsupportedEncodingException {
+		metricsCollectorService.error();
 		return ResponseEntity.ok(HttpStatus.OK);
 	}
 	
