@@ -54,6 +54,35 @@ public class MetricsCollectorService {
 		executors.execute(runntableTask);
 	}
 	
+	public void loadtest() throws JsonProcessingException, UnsupportedEncodingException {
+		stop = true;
+		
+		Runnable runntableTask = () -> {
+			while(stop) {
+				double rand = Math.random();
+				Metrics metrics;
+				
+				if(rand < 0.50 ) {
+					metrics = getNormalOperation();
+				} else {
+					metrics = getAbNormalOperation();
+				}
+				try {
+				String userRecord = objectMapper.writeValueAsString(metrics);
+				ByteBuffer buffer = ByteBuffer.wrap(userRecord.getBytes("UTF-8")); 
+				metricsProducer.addUserRecord(STREAM_NAME, PARTITION_KEY, buffer);
+				
+				Thread.sleep(SLEEP_PERIOD);
+				} catch(Exception e) {
+				}
+			}
+		};
+		
+		executors.execute(runntableTask);
+	}
+	
+	
+	
 	public void stop() {
 		stop = false;
 	}

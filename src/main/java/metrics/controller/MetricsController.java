@@ -31,4 +31,10 @@ public class MetricsController {
 		return ResponseEntity.ok(HttpStatus.OK);
 	}
 	
+	@GetMapping("loadtest")
+	public ResponseEntity<HttpStatus> loadtest() {
+		metricsCollectorService.stop();
+		return ResponseEntity.ok(HttpStatus.OK);
+	}
+	
 }
