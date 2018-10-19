@@ -62,10 +62,10 @@ public class MetricsCollectorService {
 				double rand = Math.random();
 				Metrics metrics;
 				
-				if(rand < 0.50 ) {
-					metrics = getNormalOperation();
-				} else {
+				if(rand < 0.05 || rand > 0.995) {
 					metrics = getAbNormalOperation();
+				} else {
+					metrics = getNormalOperation();
 				}
 				try {
 				String userRecord = objectMapper.writeValueAsString(metrics);
