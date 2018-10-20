@@ -2,6 +2,8 @@ package metrics.service;
 
 import java.io.UnsupportedEncodingException;
 import java.nio.ByteBuffer;
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -93,7 +95,9 @@ public class MetricsCollectorService {
 		int numOfHttpErrors = 1 + (int)(Math.random() * ((20 - 1) + 1));
 		int latency = 20 + (int)(Math.random() * ((50 - 20) + 1));
 		int throughput = 40 + (int)(Math.random() * ((80 - 40) + 1));
-		return new Metrics(numOfLoginFailures, numOfHttpErrors, latency, throughput);
+		Date date = new Date();
+		Timestamp timestamp = new Timestamp(date.getTime());
+		return new Metrics(numOfLoginFailures, numOfHttpErrors, latency, throughput, timestamp.toString());
 	}
 	
 	private Metrics getAbNormalOperation() {
@@ -101,7 +105,9 @@ public class MetricsCollectorService {
 		int numOfHttpErrors = 20 + (int)(Math.random() * ((50 - 20) + 1));
 		int latency = 50 + (int)(Math.random() * ((80 - 50) + 1));
 		int throughput = 10 + (int)(Math.random() * ((20 - 10) + 1));
-		return new Metrics(numOfLoginFailures, numOfHttpErrors, latency, throughput);
+		Date date = new Date();
+		Timestamp timestamp = new Timestamp(date.getTime());
+		return new Metrics(numOfLoginFailures, numOfHttpErrors, latency, throughput, timestamp.toString());
 	}
 	
 	private KinesisProducer getKinesisProducer() {

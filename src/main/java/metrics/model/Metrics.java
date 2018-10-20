@@ -10,11 +10,14 @@ public class Metrics {
 	
 	public int throughput;
 	
-	public Metrics(int numOfLoginFailures, int numOfHttpErrors, int latency, int throughput) {
+	public String timestamp;
+	
+	public Metrics(int numOfLoginFailures, int numOfHttpErrors, int latency, int throughput, String timestamp) {
 		this.numOfLoginFailures = numOfLoginFailures;
 		this.numOfHttpErrors = numOfHttpErrors;
 		this.latency = latency;
 		this.throughput = throughput;
+		this.timestamp = timestamp;
 	}
 
 }
