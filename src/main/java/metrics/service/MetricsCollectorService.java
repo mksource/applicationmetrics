@@ -4,6 +4,7 @@ import java.io.UnsupportedEncodingException;
 import java.nio.ByteBuffer;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 import org.springframework.stereotype.Service;
 
@@ -19,7 +20,7 @@ public class MetricsCollectorService {
 
 	private static final String STREAM_NAME = "ApplicationMetricsStream";
 	private static final String PARTITION_KEY = "partition";
-	private static final int SLEEP_PERIOD = 2000;
+	private static final int SLEEP_PERIOD = 10;
 	private static final String REGION = "us-east-1";
 	private boolean stop = true;
 	
@@ -45,7 +46,7 @@ public class MetricsCollectorService {
 				ByteBuffer buffer = ByteBuffer.wrap(userRecord.getBytes("UTF-8")); 
 				metricsProducer.addUserRecord(STREAM_NAME, PARTITION_KEY, buffer);
 				
-				Thread.sleep(SLEEP_PERIOD);
+				TimeUnit.SECONDS.sleep(SLEEP_PERIOD);
 				} catch(Exception e) {
 				}
 			}
@@ -54,7 +55,7 @@ public class MetricsCollectorService {
 		executors.execute(runntableTask);
 	}
 	
-	public void error() throws JsonProcessingException, UnsupportedEncodingException {
+	public void error3() throws JsonProcessingException, UnsupportedEncodingException {
 		stop = true;
 		
 		Runnable runntableTask = () -> {
@@ -72,7 +73,7 @@ public class MetricsCollectorService {
 				ByteBuffer buffer = ByteBuffer.wrap(userRecord.getBytes("UTF-8")); 
 				metricsProducer.addUserRecord(STREAM_NAME, PARTITION_KEY, buffer);
 				
-				Thread.sleep(SLEEP_PERIOD);
+				TimeUnit.SECONDS.sleep(SLEEP_PERIOD);
 				} catch(Exception e) {
 				}
 			}
