@@ -39,10 +39,13 @@ public class MetricsCollectorService {
 				double rand = Math.random();
 				Metrics metrics;
 				
-				if(rand < 0.05 || rand > 0.995) {
-					metrics = getAbNormalOperation();
-				} else {
-					metrics = getNormalOperation();
+				if(rand < 0.05) {
+					metrics = getHighLoadOperationMetrics();
+				} else if (rand > 0.095) {
+					metrics = getMiddleLoadOperationsMetrics();
+				}
+				else {
+					metrics = getNormalOperationMetrics();
 				}
 				try {
 				String userRecord = objectMapper.writeValueAsString(metrics);
@@ -66,10 +69,10 @@ public class MetricsCollectorService {
 				double rand = Math.random();
 				Metrics metrics;
 				
-				if(rand > 0.50) {
-					metrics = getAbNormalOperation();
+				if(rand < 0.50) {
+					metrics = getHighLoadOperationMetrics();
 				} else {
-					metrics = getNormalOperation();
+					metrics = getMiddleLoadOperationsMetrics();
 				}
 				try {
 				String userRecord = objectMapper.writeValueAsString(metrics);
@@ -91,21 +94,31 @@ public class MetricsCollectorService {
 		stop = false;
 	}
 	
-	private Metrics getNormalOperation() {
+	private Metrics getNormalOperationMetrics() {
 		int numOfLoginFailures = 1 + (int)(Math.random() * ((3 - 1) + 1)) ;
 		int numOfHttpErrors = 1 + (int)(Math.random() * ((10 - 1) + 1));
-		int latency = 20 + (int)(Math.random() * ((50 - 20) + 1));
+		int latency = 10 + (int)(Math.random() * ((40 - 10) + 1));
 		int throughput = 40 + (int)(Math.random() * ((80 - 40) + 1));
 		Date date = new Date();
 		String formatedDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date);
 		return new Metrics(numOfLoginFailures, numOfHttpErrors, latency, throughput, formatedDate);
 	}
 	
-	private Metrics getAbNormalOperation() {
-		int numOfLoginFailures = 20 + (int)(Math.random() * ((50 - 20) + 1)) ;
+	private Metrics getHighLoadOperationMetrics() {
+		int numOfLoginFailures = 20 + (int)(Math.random() * ((40 - 20) + 1)) ;
 		int numOfHttpErrors = 20 + (int)(Math.random() * ((50 - 20) + 1));
 		int latency = 50 + (int)(Math.random() * ((80 - 50) + 1));
-		int throughput = 10 + (int)(Math.random() * ((20 - 10) + 1));
+		int throughput = 20 + (int)(Math.random() * ((40 - 20) + 1));
+		Date date = new Date();
+		String formatedDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date);
+		return new Metrics(numOfLoginFailures, numOfHttpErrors, latency, throughput, formatedDate);
+	}
+	
+	private Metrics getMiddleLoadOperationsMetrics() {
+		int numOfLoginFailures = 5 + (int)(Math.random() * ((20 - 5) + 1)) ;
+		int numOfHttpErrors = 10 + (int)(Math.random() * ((20 - 10) + 1));
+		int latency = 20 + (int)(Math.random() * ((50 - 20) + 1));
+		int throughput = 5 + (int)(Math.random() * ((20 - 5) + 1));
 		Date date = new Date();
 		String formatedDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date);
 		return new Metrics(numOfLoginFailures, numOfHttpErrors, latency, throughput, formatedDate);
