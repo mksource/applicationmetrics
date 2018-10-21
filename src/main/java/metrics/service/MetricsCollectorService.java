@@ -23,7 +23,8 @@ public class MetricsCollectorService {
 
 	private static final String STREAM_NAME = "ApplicationMetricsStream";
 	private static final String PARTITION_KEY = "partition";
-	private static final int SLEEP_PERIOD = 10;
+	private static final int SLEEP_PERIOD_1 = 30;
+	private static final int SLEEP_PERIOD_2 = 20;
 	private static final String REGION = "us-east-1";
 	private boolean stop = true;
 	
@@ -52,7 +53,7 @@ public class MetricsCollectorService {
 				ByteBuffer buffer = ByteBuffer.wrap(userRecord.getBytes("UTF-8")); 
 				metricsProducer.addUserRecord(STREAM_NAME, PARTITION_KEY, buffer);
 				
-				TimeUnit.SECONDS.sleep(SLEEP_PERIOD);
+				TimeUnit.SECONDS.sleep(SLEEP_PERIOD_1);
 				} catch(Exception e) {
 				}
 			}
@@ -79,7 +80,7 @@ public class MetricsCollectorService {
 				ByteBuffer buffer = ByteBuffer.wrap(userRecord.getBytes("UTF-8")); 
 				metricsProducer.addUserRecord(STREAM_NAME, PARTITION_KEY, buffer);
 				
-				TimeUnit.SECONDS.sleep(SLEEP_PERIOD);
+				TimeUnit.SECONDS.sleep(SLEEP_PERIOD_2);
 				} catch(Exception e) {
 				}
 			}
