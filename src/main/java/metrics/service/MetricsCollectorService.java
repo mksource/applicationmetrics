@@ -40,9 +40,9 @@ public class MetricsCollectorService {
 				double rand = Math.random();
 				Metrics metrics;
 				
-				if(rand < 0.05) {
+				if(rand < 0.01) {
 					metrics = getHighLoadOperationMetrics();
-				} else if (rand > 0.095) {
+				} else if (rand > 0.099) {
 					metrics = getMiddleLoadOperationsMetrics();
 				}
 				else {
