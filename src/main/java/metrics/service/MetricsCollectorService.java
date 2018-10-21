@@ -66,7 +66,7 @@ public class MetricsCollectorService {
 				double rand = Math.random();
 				Metrics metrics;
 				
-				if(rand < 0.05 || rand > 0.995) {
+				if(rand > 0.50) {
 					metrics = getAbNormalOperation();
 				} else {
 					metrics = getNormalOperation();
