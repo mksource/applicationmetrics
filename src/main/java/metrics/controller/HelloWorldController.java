@@ -12,12 +12,12 @@ import metrics.model.Greeting;
 @Controller
 public class HelloWorldController {
 
-    private static final String template = "Hello, %s!";
+    private static final String template = "Application Metrics %s!";
     private final AtomicLong counter = new AtomicLong();
 
-    @GetMapping("/hello-world")
+    @GetMapping("/")
     @ResponseBody
-    public Greeting sayHello(@RequestParam(name="name", required=false, defaultValue="Version 2") String name) {
+    public Greeting sayHello(@RequestParam(name="name", required=false, defaultValue="Version 1") String name) {
         return new Greeting(counter.incrementAndGet(), String.format(template, name));
     }
 
