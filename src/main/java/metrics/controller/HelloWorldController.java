@@ -17,7 +17,7 @@ public class HelloWorldController {
 
     @GetMapping("/")
     @ResponseBody
-    public Greeting sayHello(@RequestParam(name="name", required=false, defaultValue="Blue Environment") String name) {
+    public Greeting sayHello(@RequestParam(name="name", required=false, defaultValue="Green Environment") String name) {
         return new Greeting(counter.incrementAndGet(), String.format(template, name));
     }
 
