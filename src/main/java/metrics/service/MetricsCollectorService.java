@@ -23,7 +23,7 @@ public class MetricsCollectorService {
 
 	private static final String STREAM_NAME = "ApplicationMetricsStream";
 	private static final String PARTITION_KEY = "partition";
-	private static final int SLEEP_PERIOD_1 = 30;
+	private static final int SLEEP_PERIOD_1 = 5;
 	private static final int SLEEP_PERIOD_2 = 20;
 	private static final String REGION = "us-east-1";
 	private boolean stop = true;
@@ -40,9 +40,9 @@ public class MetricsCollectorService {
 				double rand = Math.random();
 				Metrics metrics;
 				
-				if(rand < 0.02) {
+				if(rand < 0.05) {
 					metrics = getHighLoadOperationMetrics();
-				} else if (rand > 0.998) {
+				} else if (rand > 0.995) {
 					metrics = getMiddleLoadOperationsMetrics();
 				}
 				else {
