@@ -12,7 +12,7 @@ import metrics.model.Greeting;
 @Controller
 public class HelloWorldController {
 
-    private static final String template = "Application Metrics %s!";
+    private static final String template = "Application Metrics %s!!!";
     private final AtomicLong counter = new AtomicLong();
 
     @GetMapping("/")
